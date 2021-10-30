@@ -2,6 +2,7 @@
 #include "Marca.h"
 #include "Notebook.h"
 #include "Servicio.h"
+#include "Duenio.h"
 #ifndef TRABAJO_H_
 #define TRABAJO_H_
 
@@ -30,6 +31,16 @@ int initTrabajos(Trabajo lista[], int len);
  */
 int buscarTrabajo(Trabajo lista[], int tam);
 
+/** \brief Busca el trabajo correspondiente en el array de trabajo
+ *
+ * \param lista[] Trabajo el array de trabajos
+ * \param tam int tamanio del array de trabajos
+ * \param id int el id a buscar
+ * \return int el indice de trabajo o -1 si no la encuentra
+ *
+ */
+int buscarTrabajoId(Trabajo lista[], int tam, int id);
+
 /** \brief Busca la primer posicion libre en el array de Trabajos
  *
  * \param lista[] Trabajo el array de Trabajos
@@ -45,7 +56,7 @@ int buscarTrabajoLibre(Trabajo lista[], int len);
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int altaTrabajo(Trabajo lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Servicio servicios[],int tamServ, Notebook notebooks[],int tamNots, int *nextIdTrabajo);
+int altaTrabajo(Trabajo lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Servicio servicios[],int tamServ, Notebook notebooks[],int tamNots, Cliente clientes[], int tamCli, int *nextIdTrabajo);
 
 /** \brief Muestra un Trabajo en pantalla
  *
@@ -53,7 +64,7 @@ int altaTrabajo(Trabajo lista[], int tam, Marca marcas[], int tamMar, Tipo tipos
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int mostrarTrabajo(Trabajo trabajo, Servicio servicios[],int tamServ, Notebook notebooks[],int tamNots, Marca marcas[],int tamMar);
+int mostrarTrabajo(Trabajo trabajo, Servicio servicios[],int tamServ, Notebook notebooks[],int tamNots, Marca marcas[],int tamMar, Cliente clientes[], int tamCli);
 
 /** \brief Muestra todos los Trabajos en pantalla
  *
@@ -61,7 +72,7 @@ int mostrarTrabajo(Trabajo trabajo, Servicio servicios[],int tamServ, Notebook n
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int mostrarTrabajos(Trabajo lista[], int tam, Servicio servicios[],int tamServ, Notebook notebooks[],int tamNots, Marca marcas[],int tamMar);
+int mostrarTrabajos(Trabajo lista[], int tam, Servicio servicios[],int tamServ, Notebook notebooks[],int tamNots, Marca marcas[],int tamMar, Cliente clientes[], int tamCli);
 
 /** \brief Verifica que el id exista en el array de Trabajos
  *
@@ -72,5 +83,10 @@ int mostrarTrabajos(Trabajo lista[], int tam, Servicio servicios[],int tamServ, 
  */
 int validarIdTrabajo(Trabajo lista[], int tam, int id);
 
-
+/** \brief Ingresa algunos datos de prueba
+ *
+ * \param lista[] Trabajo el array de Trabajos
+ *
+ */
+void hardcodearTrabajos(Trabajo lista[]);
 #endif /* TRABAJO_H_ */

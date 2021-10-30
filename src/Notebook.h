@@ -1,5 +1,6 @@
 #include "Tipo.h"
 #include "Marca.h"
+#include "Duenio.h"
 #ifndef NOTEBOOK_H_
 #define NOTEBOOK_H_
 
@@ -8,6 +9,7 @@ typedef struct {
 	char modelo[21];
 	int idMarca;
 	int idTipo;
+	int idCliente;
 	int precio;
 	int isEmpty;
 } Notebook;
@@ -60,7 +62,7 @@ int buscarNotebookId(Notebook lista[], int len, int id);
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, int *nextId);
+int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli, int *nextId);
 
 /** \brief Muestra un tipo en pantalla
  *
@@ -72,7 +74,7 @@ int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tip
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int mostrarNotebook(Notebook m, Marca marcas[], int tamMar, Tipo tipos[], int tamTip);
+int mostrarNotebook(Notebook m, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli);
 
 /** \brief Muestra todos los tipos en pantalla
  *
@@ -84,7 +86,7 @@ int mostrarNotebook(Notebook m, Marca marcas[], int tamMar, Tipo tipos[], int ta
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int mostrarNotebooks(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip);
+int mostrarNotebooks(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli);
 
 /** \brief Modifica precio y/o tipo de una notebook
  *
@@ -97,7 +99,7 @@ int mostrarNotebooks(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip);
+int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli);
 
 /** \brief Elimina de forma logica una notebook del array
  *
@@ -110,6 +112,6 @@ int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tip
  * \return int (0) si no hay error (-1) si hay error
  *
  */
-int bajaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip);
+int bajaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli);
 
 #endif /* NOTEBOOK_H_ */

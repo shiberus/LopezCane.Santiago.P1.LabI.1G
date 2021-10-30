@@ -73,10 +73,10 @@ int buscarNotebookId(Notebook lista[], int tam, int id)
 	return res;
 }
 
-int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, int *nextId)
+int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli, int *nextId)
 {
 	int todoOk = -1;
-	int indice,idTipo,idMarca;
+	int indice,idTipo,idMarca,idCliente;
 	float precio;
     if (lista != NULL && marcas != NULL && tipos != NULL && tam > 0 && tamMar > 0 && tamTip > 0)
 	{
@@ -122,6 +122,19 @@ int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tip
                 }
                 lista[indice].idTipo = idTipo;
 
+                mostrarClientes(clientes, tamCli);
+                printf("ingrese id del cliente: ");
+                fflush(stdin);
+                scanf("%d", &idCliente);
+                while(!validarIdCliente(clientes, tamCli, idCliente))
+                {
+                    printf("Error id invalido\n");
+                    printf("ingrese id del cliente: ");
+                    fflush(stdin);
+                    scanf("%d", &idCliente);
+                }
+                lista[indice].idCliente = idCliente;
+
                 printf("Ingrese precio: ");
                 fflush(stdin);
                 scanf("%f", &precio);
@@ -136,9 +149,9 @@ int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tip
                 lista[indice].id = *nextId;
                 (*nextId)++;
                 lista[indice].isEmpty = 0;
-                printf(" Id       modelo      marca      tipo \n");
-                printf("-----------------------------\n");
-                mostrarNotebook(lista[indice], marcas, tamMar, tipos, tamTip);
+                printf(" Id         modelo        marca        tipo     cliente    precio\n");
+                printf("----------------------------------------------------------\n");
+                mostrarNotebook(lista[indice], marcas, tamMar, tipos, tamTip, clientes, tamCli);
                 printf("alta exitosa, presione enter para continuar.\n");
                 fflush(stdin);
                 getchar();
@@ -149,21 +162,24 @@ int altaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tip
 	return todoOk;
 }
 
-int mostrarNotebook(Notebook m, Marca marcas[], int tamMar, Tipo tipos[], int tamTip)
+int mostrarNotebook(Notebook m, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli)
 {
 	int todoOk = -1;
     char descripcionMarca[21];
     char descripcionTipo[21];
+    char nombreCliente[21];
 
     if(marcas != NULL && tipos != NULL && tamMar != 0 && tamTip != 0)
     {
         cargarDescripcionMarca(marcas, tamMar, m.idMarca, descripcionMarca);
         cargarDescripcionTipo(tipos, tamTip, m.idTipo, descripcionTipo);
-        printf("%6d  %10s %10s %10s %6d\n"
+        cargarNombreCliente(clientes, tamCli, m.idCliente, nombreCliente);
+        printf("%6d   %10s  %10s  %10s  %10s   %6d\n"
                 ,m.id
                 ,m.modelo
                 ,descripcionMarca
                 ,descripcionTipo
+                ,nombreCliente
 				,m.precio
                 );
         todoOk = 0;
@@ -171,19 +187,19 @@ int mostrarNotebook(Notebook m, Marca marcas[], int tamMar, Tipo tipos[], int ta
 	return todoOk;
 }
 
-int mostrarNotebooks(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip)
+int mostrarNotebooks(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli)
 {
 	int todoOk = -1;
 
 	if (lista != NULL && marcas != NULL && tipos != NULL && tam > 0 && tamMar > 0 && tamTip > 0)
 	{
-		printf(" Id       modelo        marca        tipo      precio\n");
-		printf("-----------------------------------------------------------------------\n");
+		printf(" Id         modelo        marca        tipo     cliente    precio\n");
+        printf("----------------------------------------------------------\n");
 		for (int i = 0; i < tam; i++)
 		{
 			if(!lista[i].isEmpty)
 			{
-				mostrarNotebook(lista[i], marcas, tamMar, tipos, tamTip);
+				mostrarNotebook(lista[i], marcas, tamMar, tipos, tamTip, clientes, tamCli);
 			}
 		}
 
@@ -193,7 +209,7 @@ int mostrarNotebooks(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo
 	return todoOk;
 }
 
-int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip)
+int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli)
 {
     int todoOk = -1;
     int continuar = 1;
@@ -207,7 +223,7 @@ int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tip
 	{
         printf("   *** Modificar Notebook ***   \n");
         printf("------------------------------------\n");
-        mostrarNotebooks(lista, tam, marcas, tamMar, tipos, tamTip);
+        mostrarNotebooks(lista, tam, marcas, tamMar, tipos, tamTip, clientes, tamCli);
         printf("Ingrese ID: \n");
         fflush(stdin);
         scanf("%d", &id);
@@ -242,7 +258,7 @@ int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tip
         {
             printf(" Id       modelo        marca        tipo      precio\n");
             printf("-----------------------------------------------------------------------\n");
-            mostrarNotebook(lista[index], marcas, tamMar, tipos, tamTip);
+            mostrarNotebook(lista[index], marcas, tamMar, tipos, tamTip, clientes, tamCli);
             printf(" A. modificar precio");
             printf(" B. modificar tipo\n");
             printf(" X. salir\n");
@@ -292,7 +308,7 @@ int modificarNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tip
 	return todoOk;
 }
 
-int bajaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip)
+int bajaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tipos[], int tamTip, Cliente clientes[], int tamCli)
 {
     int id,index;
     int continuar = 1;
@@ -303,7 +319,7 @@ int bajaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tip
 	{
         printf("   *** Baja Notebook ***   \n");
         printf("------------------------------------\n");
-        mostrarNotebooks(lista, tam, marcas, tamMar, tipos, tamTip);
+        mostrarNotebooks(lista, tam, marcas, tamMar, tipos, tamTip, clientes, tamCli);
         printf("Ingrese ID: \n");
         fflush(stdin);
         scanf("%d", &id);
@@ -338,7 +354,7 @@ int bajaNotebook(Notebook lista[], int tam, Marca marcas[], int tamMar, Tipo tip
         {
             printf(" Id       modelo        marca        tipo      precio\n");
             printf("-----------------------------------------------------------------------\n");
-            mostrarNotebook(lista[index], marcas, tamMar, tipos, tamTip);
+            mostrarNotebook(lista[index], marcas, tamMar, tipos, tamTip, clientes, tamCli);
             printf("-----------------------------------------------------------------------\n");
             printf("Confirmar baja? S/N \n");
             fflush(stdin);

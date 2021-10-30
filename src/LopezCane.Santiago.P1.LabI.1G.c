@@ -6,6 +6,8 @@
 #include "Servicio.h"
 #include "Trabajo.h"
 #include "Fecha.h"
+#include "Duenio.h"
+#include "Informes.h"
 #define TAM 500
 
 int main(void) {
@@ -21,9 +23,12 @@ int main(void) {
 	Trabajo trabajos[TAM];
 	initTrabajos(trabajos, TAM);
 
+	hardcodearTrabajos(trabajos);
+
 	Marca marcas[4] = {{1000,"Compaq",0}, {1001,"Asus",0}, {1002,"Acer",0}, {1003,"HP",0}};
 	Tipo tipos[4] = {{1000,"Gamer",0}, {1001,"Disenio",0}, {1002,"Ultrabook",0}, {1003,"Normalita",0}};
 	Servicio servicios[4] = {{1000,"Bateria",2250,0}, {1001,"Display",10300,0}, {1002,"Mantenimiento",4400,0}, {1003,"Fuente",5600,0}};
+	Cliente clientes[4] = {{1000,"Emilio",'M',0}, {1001,"Brenda",'F',0}, {1002,"Maximiliano",'M',0}, {1003,"Alex",'X',0}};
 
 	while (continuar)
 	{
@@ -37,6 +42,7 @@ int main(void) {
 		printf(" G. listar servicios\n");
 		printf(" H. alta trabajo\n");
 		printf(" I. listar trabajos\n");
+		printf(" J. Informes\n");
 		printf(" X. salir\n");
 		printf(" Ingrese una opcion: ");
 		fflush(stdin);
@@ -45,12 +51,12 @@ int main(void) {
 		switch (opcion)
 		{
 		case 'A':
-			altaNotebook(notebooks, TAM, marcas, 4, tipos, 4, &nextId);
+			altaNotebook(notebooks, TAM, marcas, 4, tipos, 4, clientes, 4, &nextId);
 			break;
 		case 'B':
 			if(buscarNotebook(notebooks,TAM))
 			{
-				modificarNotebook(notebooks, TAM, marcas, 4, tipos, 4);
+				modificarNotebook(notebooks, TAM, marcas, 4, tipos, 4, clientes, 4);
 			}
 			else
 			{
@@ -62,7 +68,7 @@ int main(void) {
 		case 'C':
 			if(buscarNotebook(notebooks,TAM))
 			{
-				//eliminar
+				bajaNotebook(notebooks,TAM, marcas, 4, tipos, 4, clientes, 4);
 			}
 			else
 			{
@@ -74,7 +80,7 @@ int main(void) {
 		case 'D':
 			if(buscarNotebook(notebooks,TAM))
 			{
-				mostrarNotebooks(notebooks, TAM, marcas, 4, tipos, 4);
+				mostrarNotebooks(notebooks, TAM, marcas, 4, tipos, 4, clientes, 4);
 			}
 			else
 			{
@@ -121,7 +127,7 @@ int main(void) {
 			if(buscarServicio(servicios,4)
 				&& buscarNotebook(notebooks, TAM))
 			{
-				altaTrabajo(trabajos,TAM,marcas,4,tipos,4,servicios,4,notebooks,TAM,&nextIdTrabajo);
+				altaTrabajo(trabajos,TAM,marcas,4,tipos,4,servicios,4,notebooks,TAM,clientes,4,&nextIdTrabajo);
 			}
 			else
 			{
@@ -132,7 +138,19 @@ int main(void) {
 		case 'I':
 			if(buscarTrabajo(trabajos,TAM))
 			{
-				mostrarTrabajos(trabajos,TAM, servicios,4,notebooks,TAM,marcas,4);
+				mostrarTrabajos(trabajos,TAM, servicios,4,notebooks,TAM,marcas,4,clientes,4);
+			}
+			else
+			{
+				printf("Error: ningun trabajo cargado, ingrese enter para continuar\n");
+				getchar();
+			}
+			break;
+		case 'J':
+			if(buscarTrabajo(trabajos,TAM)
+			&& buscarNotebook(notebooks,TAM))
+			{
+				menuInformes(trabajos,TAM,servicios,4,notebooks,TAM,marcas,4,tipos,4,clientes,4);
 			}
 			else
 			{

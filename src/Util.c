@@ -40,5 +40,5 @@ int validarLetras(char str[])
        }
        i++;
     }
-    return 1;
+    return todoOk;
 }
